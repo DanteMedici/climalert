@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class RegistroClimatico {
+  - fecha: LocalDateTime
+  - temperatura: Double
+  - humedad: Integer
+  + condicionAlerta(): Boolean
+}
+
+class Alerta {
+  - destinatarios: List<String>
+  - asunto: String
+  - mensaje: String
+}
+
+record ResultadoEnvio {
+  + exito(): ResultadoEnvio
+  + falla(motivo: String): ResultadoEnvio
+}
+
+class MonitorClimatico {
+  - adapter: CorreoAdapter
+  + notificarAlerta(registro: RegistroClimatico): void
+}
+
+interface CorreoAdapter {
+  + enviar(alerta: Alerta): ResultadoEnvio
+}
+
+class SmtpAdapter implements CorreoAdapter {
+  - mailSender: JavaMailSender
+  + enviar(alerta: Alerta): ResultadoEnvio
+}
+
+class MockCorreoAdapter implements CorreoAdapter {
+  + enviar(alerta: Alerta): ResultadoEnvio
+}
+
+MonitorClimatico .> RegistroClimatico
+MonitorClimatico --> CorreoAdapter
+
+CorreoAdapter ..> Alerta
+CorreoAdapter .> ResultadoEnvio
+
+@enduml
