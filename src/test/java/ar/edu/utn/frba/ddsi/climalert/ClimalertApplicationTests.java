@@ -1,4 +1,4 @@
-package com.climalert.climalert;
+package ar.edu.utn.frba.ddsi.climalert;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
