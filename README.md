@@ -1,4 +1,4 @@
-# Climalert - Motor de Monitoreo Meteorológico
+# Climalert
 
 ## Arquitectura y Perfiles
 El sistema implementa arquitectura de puertos y adaptadores, dividiendo su ejecución en dos entornos estrictos:
