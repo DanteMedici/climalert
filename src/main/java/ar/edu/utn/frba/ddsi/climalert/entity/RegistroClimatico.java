@@ -14,8 +14,8 @@ public class RegistroClimatico {
   @Getter
   private Double temperatura;
 
-  public RegistroClimatico(LocalDateTime fecha, Integer humedad, Double temperatura) {
-    this.fecha = fecha;
+  public RegistroClimatico(Integer humedad, Double temperatura) {
+    this.fecha = LocalDateTime.now();
     this.humedad = humedad;
     this.temperatura = temperatura;
   }
@@ -23,6 +23,6 @@ public class RegistroClimatico {
   public boolean cumpleCondicionAlerta() {
     if(humedad == null || temperatura == null)
       return false;
-    return humedad > 60 && temperatura >35;
+    return humedad > 60 && temperatura > 35;
   }
 }

@@ -20,6 +20,7 @@ public class ClimaServiceImpl implements ClimaService {
   private final WeatherClient cliente;
   @Value("${alertas.destinatarios}")
   private List<String> destinatarios;
+  private Long idUltimoRegistroAlertado = -1L;
 
   public ClimaServiceImpl(RegistroClimaticoRepository repository, MonitorClimatico monitorClimatico, ClimaMapper mapper, WeatherClient cliente) {
     this.repository = repository;
@@ -28,13 +29,19 @@ public class ClimaServiceImpl implements ClimaService {
     this.cliente = cliente;
   }
 
+  @Override
   public void procesarClimaActual() {
     ClimaResponseDTO response = this.cliente.obtenerClimaActual();
     RegistroClimatico registroActual = mapper.aEntidad(response);
     repository.guardar(registroActual);
+  }
 
-    if (registroActual.cumpleCondicionAlerta()) {
-      monitorClimatico.gestionarAlerta(registroActual, destinatarios);
+  @Override
+  public void analizarAlertaMeteorologica() {
+    RegistroClimatico ultimoRegistro = repository.obtenerUltimo();
+    if (ultimoRegistro != null && ultimoRegistro.cumpleCondicionAlerta() && !ultimoRegistro.getId().equals(idUltimoRegistroAlertado)) {
+      this.monitorClimatico.gestionarAlerta(ultimoRegistro, destinatarios);
+      idUltimoRegistroAlertado = ultimoRegistro.getId();
     }
   }
 }

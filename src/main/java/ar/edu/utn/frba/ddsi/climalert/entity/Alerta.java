@@ -5,8 +5,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+@Getter
 public class Alerta {
-  @Getter @Setter
+  @Setter
   private Long id;
   private List<String> destinatarios;
   private String asunto;

@@ -4,8 +4,6 @@ import ar.edu.utn.frba.ddsi.climalert.dto.ClimaResponseDTO;
 import ar.edu.utn.frba.ddsi.climalert.entity.RegistroClimatico;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
 public class ClimaMapper {
   public RegistroClimatico aEntidad(ClimaResponseDTO dto) {
@@ -14,7 +12,6 @@ public class ClimaMapper {
     }
 
     return new RegistroClimatico(
-        LocalDateTime.now(),
         dto.humedad(),
         dto.temperatura()
     );
